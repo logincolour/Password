@@ -1,0 +1,39 @@
+<?php
+// Set the file where the password is stored
+$passwordFile = 'password.txt';
+
+// Check if the form is submitted to change the password
+if (isset($_POST['submit'])) {
+    $newPassword = $_POST['password'];
+
+    // Save the new password to the file
+    file_put_contents($passwordFile, $newPassword);
+    $message = "Password updated successfully!";
+}
+
+// Read the current password from the file (if exists)
+$currentPassword = file_exists($passwordFile) ? file_get_contents($passwordFile) : '';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+</head>
+<body>
+    <h2>Password Manager</h2>
+
+    <?php if (isset($message)) { echo "<p>$message</p>"; } ?>
+
+    <h3>Current Password: <?php echo htmlspecialchars($currentPassword ? $currentPassword : 'No password set'); ?></h3>
+
+    <!-- Form to change the password -->
+    <form action="" method="POST">
+        <label for="password">Enter New Password:</label>
+        <input type="text" id="password" name="password" required>
+        <button type="submit" name="submit">Change Password</button>
+    </form>
+</body>
+</html>
